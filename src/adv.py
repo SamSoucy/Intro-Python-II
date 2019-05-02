@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -38,8 +39,23 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
+player = Player("Sam", room['outside'])
+
+valid_directions = ["n", "e", "s", "w"]
 
 # Write a loop that:
+print(player.current_room)
+
+while True:
+    cmd = input("Travel to: [n]orth [e]ast [s]outh [w]est or [q]uit =>")
+    if cmd in valid_directions:
+        player.travel(cmd)
+    elif cmd == "q":
+        print("Goodbye Player!")
+        break
+    else:
+        print("Cannot go that way!")
+
 #
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
