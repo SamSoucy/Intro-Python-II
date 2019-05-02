@@ -6,9 +6,9 @@ class Player:
         self.name = name
         self.current_room = current_room
         self.items = []
-    def move(self, direction):
-        if direction in ["n", "e", "s", "w"]:
-            move_rooms = self.current_room.that_room(direction)
+    def travel(self, direction):
+        if direction in ["n", "s", "e", "w"]:
+            move_rooms = self.current_room.get_room_in_direction(direction)
             if move_rooms is not None:
                 self.current_room = move_rooms
                 print(self.current_room)

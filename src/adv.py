@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -41,15 +42,57 @@ room['treasure'].s_to = room['narrow']
 # Make a new player object that is currently in the 'outside' room.
 player = Player("Sam", room['outside'])
 
+sword = Item("sword", "Very sharp and pointy!")
+shield = Item("The better to defend myself with!")
+rope = Item("Can do anthing!")
+
+room['outside'].inventory.extend([sword, shield, rope])
+room['foyer'].inventory.extend([sword, shield, rope])
+room['foyer'].inventory.extend([sword, shield, rope])
+room['foyer'].inventory.extend([sword, shield, rope])
+room['overlook'].inventory.extend([sword, shield, rope])
+room['narrow'].inventory.extend([sword, shield, rope])
+room['narrow'].inventory.extend([sword, shield, rope])
+room['treasure'].inventory.extend([sword, shield, rope])
+
+
 valid_directions = ["n", "e", "s", "w"]
 
 # Write a loop that:
 print(player.current_room)
 
+def item_loop():
+    item = ""
+    while item is not "q":
+        args = player.current_room.get_item_selector()
+        print(args)
+        item = input(f"Aquire Item: [{args}] [take or drop] or [q] =>")
+        if item.find(" ") >= 0:
+            item_value = item[:4]
+            item_command = item[5:]
+            if item_command == "take":
+                if item_value in args:
+                    print("take item")
+                else:
+                    print("Cannot take item")
+            elif item_command == "drop":
+                if item_value in args:
+                    print("drop item")
+                else:
+                    print("Cannot drop item")
+            else:
+                print("Not right command")
+                   
+
+
 while True:
-    cmd = input("Travel to: [n]orth [e]ast [s]outh [w]est or [q]uit =>")
+    cmd = input("Travel to: [n] [s] [e] [w], Take: [t], Drop: [d] or [q] =>")
     if cmd in valid_directions:
         player.travel(cmd)
+    elif cmd == "t":
+         item_loop()
+    elif cmd == "d":
+        item_loop()
     elif cmd == "q":
         print("Goodbye Player!")
         break
