@@ -43,8 +43,8 @@ room['treasure'].s_to = room['narrow']
 player = Player("Sam", room['outside'])
 
 sword = Item("sword", "Very sharp and pointy!")
-shield = Item("The better to defend myself with!")
-rope = Item("Can do anthing!")
+shield = Item("shield", "The better to defend myself with!")
+rope = Item("rope", "Can do anthing!")
 
 room['outside'].inventory.extend([sword, shield, rope])
 room['foyer'].inventory.extend([sword, shield, rope])

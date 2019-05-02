@@ -42,3 +42,5 @@ class Room:
             return self.s_to
         elif direction == "w":
             return self.w_to
+    def get_item_selector(self):
+        return ", ".join([str(f"{i}") for i in self.inventory])
