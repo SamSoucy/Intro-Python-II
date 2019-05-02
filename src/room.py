@@ -44,3 +44,16 @@ class Room:
             return self.w_to
     def get_item_selector(self):
         return ", ".join([str(f"{i}") for i in self.inventory])
+    def find_item(self, item_name):
+        print(item_name)
+        for index, value in enumerate(self.inventory):
+            if value.name == item_name:
+                item_by_string = self.inventory[index]
+                del self.inventory[index]
+                print(f"Room inventory after delete: {self.inventory}\n")
+                return item_by_string
+    def add_item(self, item):
+        self.inventory.append(item)
+        print(f'Room inventory after drop: {self.inventory}\n')
+
+                    

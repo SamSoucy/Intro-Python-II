@@ -45,44 +45,45 @@ player = Player("Sam", room['outside'])
 sword = Item("sword", "Very sharp and pointy!")
 shield = Item("shield", "The better to defend myself with!")
 rope = Item("rope", "Can do anthing!")
+lightsaber = Item("lightsaber", "kick ass weapon")
 
 room['outside'].inventory.extend([sword, shield, rope])
-room['foyer'].inventory.extend([sword, shield, rope])
-room['foyer'].inventory.extend([sword, shield, rope])
-room['foyer'].inventory.extend([sword, shield, rope])
+room['foyer'].inventory.extend([sword, rope, lightsaber])
 room['overlook'].inventory.extend([sword, shield, rope])
-room['narrow'].inventory.extend([sword, shield, rope])
-room['narrow'].inventory.extend([sword, shield, rope])
-room['treasure'].inventory.extend([sword, shield, rope])
+room['narrow'].inventory.extend([shield, rope, lightsaber])
+room['treasure'].inventory.extend([sword, shield, lightsaber])
 
 
 valid_directions = ["n", "e", "s", "w"]
 
 # Write a loop that:
-print(player.current_room)
+print(f'Current Room:\n{player.current_room}\n')
 
 def item_loop():
     item = ""
-    while item is not "q":
+    while item is not "b":
         args = player.current_room.get_item_selector()
+        player_inventory = player.get_item_selector()
         print(args)
-        item = input(f"Aquire Item: [{args}] [take or drop] or [q] =>")
+        item = input(f"Aquire Item: [{args}] [take or drop] or [b] to go back =>")
         if item.find(" ") >= 0:
-            item_value = item[:4]
-            item_command = item[5:]
-            if item_command == "take":
+            cv = item.find("")
+            item_value = item[:cv]
+            item_command = item[cv+1:]
+            if item_command == "take" or item_command == "drop":
                 if item_value in args:
-                    print("take item")
+                    player.handle_action(item_command, item_value)
+                elif item_value in player_inventory:
+                     player.handle_action(item_command, item_value)
                 else:
-                    print("Cannot take item")
-            elif item_command == "drop":
-                if item_value in args:
-                    print("drop item")
-                else:
-                    print("Cannot drop item")
+                    print("Cannot use this command!\n")
             else:
-                print("Not right command")
-                   
+                print("Cannot use this command!\n")
+        elif item == "b":
+            print("Cannot use this command!")
+            print(f'Current Room: \n{player.current_room}\n')
+        else:
+            print("Cannot use this command!")
 
 
 while True:
