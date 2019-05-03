@@ -1,4 +1,6 @@
 from room import Room
+from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -38,8 +40,66 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
+player = Player("Sam", room['outside'])
+
+sword = Item("sword", "Very sharp and pointy!")
+shield = Item("shield", "The better to defend myself with!")
+rope = Item("rope", "Can do anthing!")
+lightsaber = Item("lightsaber", "kick ass weapon")
+
+room['outside'].inventory.extend([sword, shield, rope])
+room['foyer'].inventory.extend([sword, rope, lightsaber])
+room['overlook'].inventory.extend([sword, shield, rope])
+room['narrow'].inventory.extend([shield, rope, lightsaber])
+room['treasure'].inventory.extend([sword, shield, lightsaber])
+
+
+valid_directions = ["n", "e", "s", "w"]
 
 # Write a loop that:
+print(f'Current Room:\n{player.current_room}\n')
+
+def item_loop():
+    item = ""
+    while item is not "b":
+        args = player.current_room.get_item_selector()
+        player_inventory = player.get_item_selector()
+        print(args)
+        item = input(f"Aquire Item: [{args}] [take or drop] or [b] to go back =>")
+        if item.find(" ") >= 0:
+            cv = item.find("")
+            item_value = item[:cv]
+            item_command = item[cv+1:]
+            if item_command == "take" or item_command == "drop":
+                if item_value in args:
+                    player.handle_action(item_command, item_value)
+                elif item_value in player_inventory:
+                     player.handle_action(item_command, item_value)
+                else:
+                    print("Cannot use this command!\n")
+            else:
+                print("Cannot use this command!\n")
+        elif item == "b":
+            print("Cannot use this command!")
+            print(f'Current Room: \n{player.current_room}\n')
+        else:
+            print("Cannot use this command!")
+
+
+while True:
+    cmd = input("Travel to: [n] [s] [e] [w], Take: [t], Drop: [d] or [q] =>")
+    if cmd in valid_directions:
+        player.travel(cmd)
+    elif cmd == "t":
+         item_loop()
+    elif cmd == "d":
+        item_loop()
+    elif cmd == "q":
+        print("Goodbye Player!")
+        break
+    else:
+        print("Cannot go that way!")
+
 #
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
